@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INAIToolsLab</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="font-sans min-h-screen">
+    <!-- Background Elements -->
+    <div class="background-particles"></div>
+    
+    <!-- Navigation -->
+    <nav class="glass-nav fixed w-full top-0 z-50 animate-fadeInDown">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-4">
+                    <div class="logo-container">
+                        <i class="fas fa-brain text-3xl text-white mr-3"></i>
+                        <h1 class="text-3xl font-black text-white tracking-tight">INAIToolsLab</h1>
+                    </div>
+                    <div class="hidden md:block">
+                        <span class="text-white/70 text-sm font-medium">AI Tools Laboratory</span>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <button id="loginBtn" class="btn-primary btn-shimmer">
+                        <i class="fas fa-sign-in-alt mr-2"></i>
+                        Login
+                    </button>
+                    <button id="logoutBtn" class="btn-secondary btn-shimmer hidden">
+                        <i class="fas fa-sign-out-alt mr-2"></i>
+                        Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal-overlay">
+        <div class="modal-container animate-scaleIn">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="flex items-center space-x-3">
+                        <div class="modal-icon">
+                            <i class="fas fa-user-circle text-2xl"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-800">Welcome Back</h2>
+                            <p class="text-gray-600 text-sm">Sign in to access your AI tools</p>
+                        </div>
+                    </div>
+                    <button id="closeModal" class="modal-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div id="error" class="error-message"></div>
+                
+                <form id="authForm" class="space-y-6">
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-envelope mr-2"></i>
+                            Email Address
+                        </label>
+                        <input type="email" id="email" placeholder="Enter your email address" class="form-input">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-lock mr-2"></i>
+                            Password
+                        </label>
+                        <input type="password" id="password" placeholder="Enter your password" class="form-input">
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" id="loginSubmit" class="btn-primary btn-full btn-shimmer">
+                            <i class="fas fa-sign-in-alt mr-2"></i>
+                            Sign In
+                        </button>
+                        <button type="submit" id="registerSubmit" class="btn-success btn-full btn-shimmer">
+                            <i class="fas fa-user-plus mr-2"></i>
+                            Create Account
+                        </button>
+                    </div>
+                </form>
+                
+                <div class="modal-footer">
+                    <p class="text-xs text-gray-500 text-center">
+                        By continuing, you agree to our Terms of Service and Privacy Policy
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="container mx-auto px-6 text-center">
+                <div class="hero-content animate-fadeInUp">
+                    <h1 class="hero-title">
+                        AI Tools Laboratory
+                        <span class="hero-subtitle">Professional Development Environment</span>
+                    </h1>
+                    <p class="hero-description">
+                        Discover and deploy cutting-edge artificial intelligence tools in our secure, 
+                        cloud-based development environment. Built for professionals, researchers, and innovators.
+                    </p>
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <i class="fas fa-tools text-blue-400"></i>
+                            <span class="stat-number">50+</span>
+                            <span class="stat-label">AI Tools</span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-users text-green-400"></i>
+                            <span class="stat-number">10K+</span>
+                            <span class="stat-label">Users</span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-chart-line text-purple-400"></i>
+                            <span class="stat-number">99.9%</span>
+                            <span class="stat-label">Uptime</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- App Grid Section -->
+        <section class="apps-section">
+            <div class="container mx-auto px-6">
+                <div class="section-header animate-fadeInUp">
+                    <h2 class="section-title">Available Tools</h2>
+                    <p class="section-description">Choose from our curated collection of AI-powered applications</p>
+                </div>
+                <div id="appList" class="app-grid"></div>
+            </div>
+        </section>
+
+        <!-- App Viewer Section -->
+        <section id="appViewer" class="app-viewer-section">
+            <div class="container mx-auto px-6">
+                <div class="viewer-header animate-fadeInUp">
+                    <h2 id="appViewerTitle" class="viewer-title"></h2>
+                    <button class="btn-secondary" onclick="closeAppViewer()">
+                        <i class="fas fa-times mr-2"></i>
+                        Close
+                    </button>
+                </div>
+                
+                <div class="iframe-container animate-fadeInUp">
+                    <div class="iframe-header">
+                        <div class="traffic-lights">
+                            <div class="traffic-light red"></div>
+                            <div class="traffic-light yellow"></div>
+                            <div class="traffic-light green"></div>
+                        </div>
+                        <div class="iframe-title">
+                            <i class="fas fa-globe mr-2"></i>
+                            Application Runtime
+                        </div>
+                        <div class="iframe-controls">
+                            <button class="iframe-control" title="Refresh">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
+                            <button class="iframe-control" title="Fullscreen">
+                                <i class="fas fa-expand"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <iframe id="appIframe" class="app-iframe" title="AI Tool Interface"></iframe>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p class="loading-text">Loading AI Tools...</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+    
+    <script>
+        // Initialize particles and animations
+        document.addEventListener('DOMContentLoaded', function() {
+            createBackgroundParticles();
+            initializeAnimations();
+        });
+
+        function createBackgroundParticles() {
+            const container = document.querySelector('.background-particles');
+            const particleCount = 50;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        function initializeAnimations() {
+            // Add staggered animations to elements
+            const animatedElements = document.querySelectorAll('.animate-fadeInUp');
+            animatedElements.forEach((el, index) => {
+                el.style.animationDelay = (index * 0.1) + 's';
+            });
+        }
+
+        function closeAppViewer() {
+            document.getElementById('appViewer').classList.add('hidden');
+            document.getElementById('appIframe').src = '';
+        }
+
+        // Enhanced modal functionality
+        document.getElementById('closeModal').addEventListener('click', function() {
+            document.getElementById('loginModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+
+        document.getElementById('loginBtn').addEventListener('click', function() {
+            document.getElementById('loginModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+
+        // Close modal when clicking outside
+        document.getElementById('loginModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+    </script>
+</body>
+</html>
